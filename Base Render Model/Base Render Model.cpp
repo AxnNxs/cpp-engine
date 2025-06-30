@@ -1,0 +1,13 @@
+﻿// Base Render Model.cpp : Defines the entry point for the application.
+//
+
+#include <Base Render Model.hpp>
+#include <mylibraries/pixelManage.hpp>
+
+using namespace std;
+
+int main()
+{
+	cout << "Hello CMake." << endl;
+	return 0;
+}
