@@ -25,9 +25,19 @@ FetchContent_Declare(
 # --- Add GLM to project ---
 FetchContent_MakeAvailable(glm)
 
-
 # Add source to this project's executable.
-add_executable (CMakeTarget "Base Render Model.cpp" "Base Render Model.hpp" "mylibraries/pixelManage.hpp" "mylibraries/pixelManage.cpp")
+add_executable (
+	CMakeTarget 
+	"Base Render Model.cpp" 
+	"Base Render Model.hpp" 
+	"platform/linux/view.cpp"
+	"mylibraries/pixelManage.hpp" 
+	"mylibraries/pixelManage.cpp"
+)
+
+if(WIN32)
+    set_property(TARGET CMakeTarget PROPERTY WIN32_EXECUTABLE TRUE)
+endif()
 
 # --- Link GLM to this project ---
 target_link_libraries(CMakeTarget PRIVATE glm)

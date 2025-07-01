@@ -10,24 +10,18 @@
 #endif
 
 
-class vec2D {
-private:
-	glm::vec2 position;
-	glm::vec3 colorRGB;
-
-public:
-	vec2D();
-	vec2D(glm::vec2 position, glm::vec3 color);
-};
-
-
-
 class vec3D {
-private:
-	glm::vec3 position;
-	glm::vec3 colorRGB;
+	private:
+		glm::vec3 position;
+		glm::vec3 colorRGB;
 
-public:
-	vec3D();
-	vec3D(glm::vec3 position, glm::vec3 color);
+	public:
+		vec3D();
+		vec3D(glm::vec3 position, glm::vec3 color);
+
+		const std::string getPosition();
+		const std::string getColorRGB();
+
+		void setPosition(const glm::vec3& newPos);
+		void setColorRGB(const glm::vec3& newCol);
 };
