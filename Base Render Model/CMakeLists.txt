@@ -39,8 +39,23 @@ if(WIN32)
     set_property(TARGET CMakeTarget PROPERTY WIN32_EXECUTABLE TRUE)
 endif()
 
-# --- Link GLM to this project ---
-target_link_libraries(CMakeTarget PRIVATE glm)
+if(WIN32)
+# --- Link lib to this project (Windows) ---
+target_link_libraries(CMakeTarget PRIVATE 
+	glm
+	d3d11.lib
+	dxgi.lib
+	d3dcompiler.lib
+	dxguid.lib)
+elseif(UNIX)
+# --- Link GLM to this project (Linux)---
+target_link_libraries(CMakeTarget PRIVATE 
+	glm
+	d3d11.lib
+	dxgi.lib
+	d3dcompiler.lib
+	dxguid.lib)
+endif()
 
 
 # --- Set include directories for my own libraries ---

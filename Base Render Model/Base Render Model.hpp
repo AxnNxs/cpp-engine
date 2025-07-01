@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <Base Render Model.hpp>
+#include <mylibraries/pixelManage.hpp>
 #include <iostream>
+#include <string>
 
 // TODO: Reference additional headers your program requires here.
