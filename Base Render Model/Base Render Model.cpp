@@ -8,7 +8,7 @@
 
 #ifdef _WIN32
 #include <windows.h>	//WinAPI
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam); //forward declaration of the window procedure function
 #elif __linux__
 #include <X11/Xlib.h>
 #elif __APPLE__
@@ -70,60 +70,63 @@ int WINAPI WinMain( _In_ HINSTANCE hInstance,     // Handle to the current insta
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
-        case WM_DESTROY: {
-            // Messaggio inviato quando la finestra è stata distrutta.
-            // Qui rilasci tutte le risorse allocate per questa finestra.
-            // PostQuitMessage(0) invia un messaggio WM_QUIT alla coda dei messaggi,
-            // che farà terminare il ciclo di messaggi in WinMain.
-            PostQuitMessage(0);
-            break;
-        }
-        case WM_PAINT: {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
-            // Messaggio inviato quando una parte della finestra deve essere ridisegnata.
-            // Questo è il luogo dove il tuo motore di rendering disegnerà.
+    case WM_DESTROY: {
+        // Messaggio inviato quando la finestra è stata distrutta.
+        // Qui rilasci tutte le risorse allocate per questa finestra.
+        // PostQuitMessage(0) invia un messaggio WM_QUIT alla coda dei messaggi,
+        // che farà terminare il ciclo di messaggi in WinMain.
+        PostQuitMessage(0);
+        break;
+    }
+    case WM_PAINT: {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
+        // Messaggio inviato quando una parte della finestra deve essere ridisegnata.
+        // Questo è il luogo dove il tuo motore di rendering disegnerà.
 
-            // --- Qui il tuo codice di disegno ---
-            // Se usi GDI, disegneresti qui (es. TextOut, Rectangle, Ellipse)
-            // Se usi OpenGL/DirectX, qui attiveresti il contesto grafico e chiameresti
-            // le tue funzioni di rendering 3D.
-            FillRect(hdc, &ps.rcPaint, (HBRUSH)GetStockObject(BLACK_BRUSH)); // Riempi l'area con un colore
-            TextOut(hdc, 50, 50, "Hello, Windows!", 15); // Stampa testo
-            EndPaint(hwnd, &ps); // Rilascia il contesto di device
-            return 0;
-        }
-        case WM_CLOSE: {
-            // X pressed
-            DestroyWindow(hwnd);
-            break;
-        }
-        case WM_SIZE: {
-            // Messaggio inviato quando la finestra è ridimensionata.
-            // wParam contiene il tipo di ridimensionamento (es. SIZE_RESTORED, SIZE_MINIMIZED).
-            // lParam contiene la nuova larghezza (LOWORD) e altezza (HIWORD) della finestra.
-            int newWidth = LOWORD(lParam);
-            int newHeight = HIWORD(lParam);
-            std::cout << "DEBUG: Window resized to " << newWidth << "x" << newHeight << std::endl;
-            // Qui dovresti aggiornare le dimensioni della tua viewport OpenGL/DirectX
-            break;
-        }
-        case WM_LBUTTONDOWN: {
-            // Messaggio inviato quando il tasto sinistro del mouse viene premuto.
-            // LOWORD(lParam) = X, HIWORD(lParam) = Y delle coordinate del mouse.
-            int mouseX = LOWORD(lParam);
-            int mouseY = HIWORD(lParam);
-            std::cout << "DEBUG: Left mouse button down at (" << mouseX << ", " << mouseY << ")" << std::endl;
-            break;
-        }
+        // --- Qui il tuo codice di disegno ---
+        // Se usi GDI, disegneresti qui (es. TextOut, Rectangle, Ellipse)
+        // Se usi OpenGL/DirectX, qui attiveresti il contesto grafico e chiameresti
+        // le tue funzioni di rendering 3D.
+        FillRect(hdc, &ps.rcPaint, (HBRUSH)GetStockObject(BLACK_BRUSH)); // Riempi l'area con un colore
+        TextOut(hdc, 50, 50, "Hello, Windows!", 15); // Stampa testo
+
+        EndPaint(hwnd, &ps); // Rilascia il contesto di device
+        return 0;
+    }
+    case WM_CLOSE: {
+        // X pressed
+        DestroyWindow(hwnd);
+        break;
+    }
+    case WM_SIZE: {
+        // Messaggio inviato quando la finestra è ridimensionata.
+        // wParam contiene il tipo di ridimensionamento (es. SIZE_RESTORED, SIZE_MINIMIZED).
+        // lParam contiene la nuova larghezza (LOWORD) e altezza (HIWORD) della finestra.
+        int newWidth = LOWORD(lParam);
+        int newHeight = HIWORD(lParam);
+        std::cout << "DEBUG: Window resized to " << newWidth << "x" << newHeight << std::endl;
+        // Qui dovresti aggiornare le dimensioni della tua viewport OpenGL/DirectX
+        break;
+    }
+    case WM_LBUTTONDOWN: {
+        // Messaggio inviato quando il tasto sinistro del mouse viene premuto.
+        // LOWORD(lParam) = X, HIWORD(lParam) = Y delle coordinate del mouse.
+        int mouseX = LOWORD(lParam);
+        int mouseY = HIWORD(lParam);
+        std::cout << "DEBUG: Left mouse button down at (" << mouseX << ", " << mouseY << ")" << std::endl;
+        break;
+    }
+    default:
+
+        // È FONDAMENTALE chiamare DefWindowProc per tutti i messaggi che non gestisci.
+        // Questo permette a Windows di eseguire la gestione predefinita della finestra
+        // (es. ridimensionamento automatico del bordo, movimentazione della finestra, ecc.).
+
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
 
     }
 
-    // È FONDAMENTALE chiamare DefWindowProc per tutti i messaggi che non gestisci.
-    // Questo permette a Windows di eseguire la gestione predefinita della finestra
-    // (es. ridimensionamento automatico del bordo, movimentazione della finestra, ecc.).
-
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 

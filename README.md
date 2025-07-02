@@ -10,8 +10,7 @@ Libraries involved:
 - so on (WIP)
 
 ---------------
+![C++ Logo](assets/images/cpp_logo.svg) Linguaggio di programmazione: C++
 ![Build Status](https://img.shields.io/github/workflow/status/your-org/your-repo/Build/main)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![GitHub stars](https://img.shields.io/github/stars/your-org/your-repo?style=social)
-
 No support provided, use at your own risk.
